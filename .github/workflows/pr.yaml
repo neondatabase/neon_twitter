@@ -14,7 +14,7 @@ jobs:
       - run: yarn install
       - run: yarn add neonctl
       - run: |
-          yarn neonctl branches create \
+          yarn -s neonctl branches create \
             --api-key ${{ secrets.NEON_API_KEY }} \
             -o json \
             --project.id ${{ secrets.NEON_PROJECT_ID }} \
@@ -25,7 +25,7 @@ jobs:
       - run: echo "DIRECT_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
       - run: yarn prisma migrate deploy
       - run: |
-          yarn neonctl branches delete \
+          yarn -s neonctl branches delete \
             --api-key ${{ secrets.NEON_API_KEY }} \
             --project.id ${{ secrets.NEON_PROJECT_ID }} \
             --branch.id $(cat connect.json | jq -r '.branch.id')
