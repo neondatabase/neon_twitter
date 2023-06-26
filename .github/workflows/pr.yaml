@@ -1,0 +1,38 @@
+name: Test PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test_migration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: yarn install
+      - run: yarn add neonctl
+      - run: |
+          yarn -s neonctl branches create \
+            --api-key ${{ secrets.NEON_API_KEY }} \
+            -o json \
+            --project.id ${{ secrets.NEON_PROJECT_ID }} \
+            --branch.name pr-${{ github.sha }} \
+            --endpoint.type read_write \
+            > connect.json
+      - run: echo "DATABASE_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
+      - run: echo "DIRECT_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
+      - run: yarn prisma migrate deploy
+      - run: |
+          yarn -s neonctl branches delete \
+            --api-key ${{ secrets.NEON_API_KEY }} \
+            --project.id ${{ secrets.NEON_PROJECT_ID }} \
+            --branch.id $(cat connect.json | jq -r '.branch.id')
+        if: always()
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: debug_data
+          path: connect.json
+        if: always()
