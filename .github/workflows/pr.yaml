@@ -22,11 +22,12 @@ jobs:
             --endpoint.type read_write \
             > connect.json
       - run: echo "DATABASE_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
+      - run: echo "DIRECT_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
       - run: yarn prisma migrate deploy
       - run: |
           yarn neonctl branches delete \
             --api-key ${{ secrets.NEON_API_KEY }} \
             --project.id ${{ secrets.NEON_PROJECT_ID }} \
-            --branch.name pr-${{ github.sha }}
+            --branch.id $(cat connect.json | jq -r '.branch.id')
         if: always()
 
