@@ -31,3 +31,8 @@ jobs:
             --branch.id $(cat connect.json | jq -r '.branch.id')
         if: always()
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: debug_data
+          path: connect.json
+        if: always()
