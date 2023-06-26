@@ -14,19 +14,19 @@ jobs:
       - run: yarn install
       - run: yarn install neonctl
       - run: |
-        neonctl branches create \
-          --api-key ${{ secrets.NEON_API_KEY }} \
-          -o json \
-          --project.id ${{ secrets.NEON_PROJECT_ID }} \
-          --branch.name pr-${{ github.sha }} \
-          --endpoint.type read_write \
-          > connect.json
+          neonctl branches create \
+            --api-key ${{ secrets.NEON_API_KEY }} \
+            -o json \
+            --project.id ${{ secrets.NEON_PROJECT_ID }} \
+            --branch.name pr-${{ github.sha }} \
+            --endpoint.type read_write \
+            > connect.json
       - run: echo "DATABASE_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
       - run: yarn prisma migrate deploy
       - run: |
-        neonctl branches delete \
-          --api-key ${{ secrets.NEON_API_KEY }} \
-          --project.id ${{ secrets.NEON_PROJECT_ID }} \
-          --branch.name pr-${{ github.sha }}
+          neonctl branches delete \
+            --api-key ${{ secrets.NEON_API_KEY }} \
+            --project.id ${{ secrets.NEON_PROJECT_ID }} \
+            --branch.name pr-${{ github.sha }}
         if: always()
 
