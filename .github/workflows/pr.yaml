@@ -10,25 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: yarn install
-      - uses: neondatabase/create-branch-action@beta
+      - uses: neondatabase/create-branch-action@v4.3.1
         id: create-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch_name: pr-${{ github.sha }}
+          branch_name: test_branch
           api_key: ${{ secrets.NEON_API_KEY }}
-          username: eduard
+          username: ${{ secrets.NEON_USERNAME }}
           prisma: true
-          extra: true
+          suspend_timeout: 30
 
       - run: echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - run: echo "DIRECT_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: yarn install
       - run: yarn prisma migrate deploy
-      - uses: neondatabase/delete-branch-action@beta
+      - uses: neondatabase/delete-branch-action@v3
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch_id: ${{ steps.create-branch.outputs.branch_id }}
+          branch: test_branch
           api_key: ${{ secrets.NEON_API_KEY }}
-        if: always()
+        if: ${{ always() }}
 
