@@ -12,17 +12,17 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - run: yarn install
-      - run: yarn add neonctl
-      - run: |
-          yarn -s neonctl branches create \
-            --api-key ${{ secrets.NEON_API_KEY }} \
-            -o json \
-            --project.id ${{ secrets.NEON_PROJECT_ID }} \
-            --branch.name pr-${{ github.sha }} \
-            --endpoint.type read_write \
-            > connect.json
-      - run: echo "DATABASE_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
-      - run: echo "DIRECT_URL=$(cat connect.json | jq -r '.connection_uris[0].connection_uri')" >> .env
+      - uses: neondatabase/create-branch-action@beta
+        id: create-branch
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          branch_name: pr-${{ github.sha }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          username: eduard
+          password: 1234
+
+      - run: echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
+      - run: echo "DIRECT_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - run: yarn prisma migrate deploy
       - run: |
           yarn -s neonctl branches delete \
