@@ -20,6 +20,7 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }}
           username: eduard
           prisma: true
+          extra: true
 
       - run: echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - run: echo "DIRECT_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
