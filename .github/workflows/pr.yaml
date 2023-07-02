@@ -25,7 +25,7 @@ jobs:
       - run: echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - run: echo "DIRECT_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - run: yarn prisma migrate deploy
-      - uses: neondatabase/delete-branch-action@eduard/with_cli
+      - uses: neondatabase/delete-branch-action@beta
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           branch_id: ${{ steps.create-branch.outputs.branch_id }}
