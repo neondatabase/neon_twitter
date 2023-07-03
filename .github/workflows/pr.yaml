@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - run: yarn install
-      - uses: neondatabase/create-branch-action@eduard/yarn_globally
+      - uses: neondatabase/create-branch-action@beta
         id: create-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
