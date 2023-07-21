@@ -27,7 +27,7 @@ jobs:
       - uses: neondatabase/delete-branch-action@eduard/accept_branch_name
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch: ${{ steps.create-branch.outputs.branch_id }}
+          branch: pr-${{ github.sha }}
           api_key: ${{ secrets.NEON_API_KEY }}
         if: always()
 
