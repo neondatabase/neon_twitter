@@ -16,7 +16,7 @@ jobs:
         id: create-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch_name: pr-${{ github.sha }}
+          branch_name: pr-${{ github.ref_name }}
           api_key: ${{ secrets.NEON_API_KEY }}
           username: eduard
           prisma: true
