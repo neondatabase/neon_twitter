@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: neondatabase/create-branch-action@v4
+      - uses: neondatabase/create-branch-action@fix_package_addition
         id: create-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
