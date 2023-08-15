@@ -22,6 +22,8 @@ jobs:
       - run: echo "DIRECT_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        with:
+          node-version: 20
       - run: yarn install
       - run: yarn prisma migrate deploy
       - uses: neondatabase/delete-branch-action@v3
