@@ -9,7 +9,6 @@ jobs:
   test_migration:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - uses: neondatabase/create-branch-action@fix_package_addition
         id: create-branch
         with:
@@ -21,6 +20,9 @@ jobs:
 
       - run: echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - run: echo "DIRECT_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: yarn install
       - run: yarn prisma migrate deploy
       - uses: neondatabase/delete-branch-action@v3
         with:
