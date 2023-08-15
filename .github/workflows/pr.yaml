@@ -14,7 +14,7 @@ jobs:
         id: create-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch_name: pr-${{ github.sha }}
+          branch_name: test_branch
           api_key: ${{ secrets.NEON_API_KEY }}
           username: eduard
           prisma: true
@@ -26,10 +26,10 @@ jobs:
           node-version: 20
       - run: yarn install
       - run: yarn prisma migrate deploy
-      - uses: neondatabase/delete-branch-action@fix_global
+      - uses: neondatabase/delete-branch-action@v3
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch: pr-${{ github.sha }}
+          branch: test_branch
           api_key: ${{ secrets.NEON_API_KEY }}
         if: always()
 
