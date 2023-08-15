@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: neondatabase/create-branch-action@fix_package_addition
+      - uses: neondatabase/create-branch-action@v4
         id: create-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
@@ -26,10 +26,10 @@ jobs:
           node-version: 20
       - run: yarn install
       - run: yarn prisma migrate deploy
-      # - uses: neondatabase/delete-branch-action@v3
-      #  with:
-      #    project_id: ${{ secrets.NEON_PROJECT_ID }}
-      #    branch: pr-${{ github.sha }}
-      #    api_key: ${{ secrets.NEON_API_KEY }}
+      - uses: neondatabase/delete-branch-action@v3
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          branch: pr-${{ github.sha }}
+          api_key: ${{ secrets.NEON_API_KEY }}
         if: always()
 
