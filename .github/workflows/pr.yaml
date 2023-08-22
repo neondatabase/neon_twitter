@@ -32,5 +32,5 @@ jobs:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           branch: test_branch
           api_key: ${{ secrets.NEON_API_KEY }}
-        if: ${{ always() }}
+        if: ${{ cancelled() }}
 
