@@ -62,18 +62,14 @@ SHADOW_DATABASE_URL="postgres://[user]:[password]@[neon_hostname]/shadow"
 ### 7. Install dependencies and migrate
 
 ```bash
-npm install
-npx prisma migrate dev
+yarn install
+yarn run prisma migrate dev
 ```
 
 ### 8. Start the Application
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
 ```
 
 Open http://localhost:3000 to view the application.
