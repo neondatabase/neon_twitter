@@ -18,7 +18,7 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }}
           username: ${{ secrets.NEON_USERNAME }}
           prisma: true
-          suspend_timeout: 30
+          suspend_timeout: 60
 
       - run: echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
       - run: echo "DIRECT_URL=${{ steps.create-branch.outputs.db_url }}" >> .env
