@@ -9,6 +9,7 @@ export const NewPost = () => {
   const { refresh } = usePosts();
   const [postData, setPostData] = React.useState<PostCreate>({
     content: "",
+    author: "Anonymous",
   });
   const onSubmit = React.useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +32,20 @@ export const NewPost = () => {
             value={postData.content}
             onChange={(e) =>
               setPostData({ ...postData, content: e.target.value })
+            }
+          />
+        </div>
+      </div>
+      <div className="field">
+        <label className="label">Author</label>
+        <div className="control">
+          <input
+            type="text"
+            name="author"
+            className="input"
+            value={postData.author}
+            onChange={(e) =>
+              setPostData({ ...postData, author: e.target.value })
             }
           />
         </div>
