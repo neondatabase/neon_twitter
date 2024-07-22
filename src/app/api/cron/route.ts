@@ -5,8 +5,12 @@ export async function POST() {
 	try {
 		await prisma.post.deleteMany();
 
-		return Response.json({ success: true });
+		return new Response("Posts deleted successfully", {
+			status: 200,
+		});
 	} catch (error) {
-		return Response.json({ success: false, error });
+		return new Response("Error deleting posts", {
+			status: 500,
+		});
 	}
 }
